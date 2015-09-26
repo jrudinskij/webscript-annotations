@@ -1,0 +1,12 @@
+*.classpath
+*.project
+annotations/alf_data_dev/
+annotations/target/
+webscripts/target/
+annotations-runtime/target/
+webscripts/.settings/
+annotations/.settings/
+annotations-runtime/.settings/
+annotations/tomcat/
+annotations-runtime/tomcat/
+webscripts/tomcat/
