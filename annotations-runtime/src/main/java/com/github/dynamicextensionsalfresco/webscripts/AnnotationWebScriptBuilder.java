@@ -8,6 +8,9 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.BeansException;
@@ -58,6 +61,11 @@ public class AnnotationWebScriptBuilder implements BeanFactoryAware{
 	}
 
 	public List<WebScript> createWebScripts(String beanName) {
+		
+//		Consumer<String> logger = s ->{};
+//		if("JrWebScript".equals(beanName)){
+//			logger = s -> System.out.println("\n\n !!!!!!!  " + s + "  \n");
+//		}
 		Class<?> beanType = beanFactory.getType(beanName);
 		if(beanType == null){
 			return Collections.emptyList();
@@ -211,7 +219,7 @@ public class AnnotationWebScriptBuilder implements BeanFactoryAware{
 		if(FormatStyle.EXTENSION == style){
 			return org.springframework.extensions.webscripts.Description.FormatStyle.extension;
 		}
-		return null;
+		return org.springframework.extensions.webscripts.Description.FormatStyle.any;
 	}
 	
 	protected void handleTypeAnnotations(String beanName, com.github.dynamicextensionsalfresco.webscripts.annotations.WebScript webScript, DescriptionImpl description) {
@@ -280,7 +288,7 @@ public class AnnotationWebScriptBuilder implements BeanFactoryAware{
 			case PUBLIC_API: return Description.Lifecycle.public_api;
 			case SAMPLE: return Description.Lifecycle.sample;
 		}
-		return null;
+		return Description.Lifecycle.none;
 	}
 	
 	protected void handleAuthenticationAnnotation(Authentication authentication, DescriptionImpl description) {
@@ -299,7 +307,7 @@ public class AnnotationWebScriptBuilder implements BeanFactoryAware{
 			case USER: return RequiredAuthentication.user;
 			case ADMIN: return RequiredAuthentication.admin;
 		}
-		return null;
+		return RequiredAuthentication.none;
 	}
 	
 	protected void handleTransactionAnnotation(Transaction transaction, DescriptionImpl description) {
@@ -325,7 +333,7 @@ public class AnnotationWebScriptBuilder implements BeanFactoryAware{
 			case REQUIRED: return RequiredTransaction.required;
 			case REQUIRES_NEW: return RequiredTransaction.requiresnew;
 		}
-		return null;
+		return RequiredTransaction.none;
 	}
 	
 	protected void handleCacheAnnotation(Cache cache, String beanName, DescriptionImpl description) {

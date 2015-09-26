@@ -63,6 +63,7 @@ public class WebScriptUriRegistry implements UriIndex, BeanPostProcessor, Initia
 			if (uriIndex != null) {
 				doRegisterWebScript(webScript);
 			} else {
+				System.out.println("\n\n  !!!! NO REGISTRATION  \n\n");
 				if (logger.isDebugEnabled()) {
 					logger.debug("Delaying registration of Web Script '{}' until UriIndex is available.", webScript
 							.getDescription().getId());
@@ -111,7 +112,7 @@ public class WebScriptUriRegistry implements UriIndex, BeanPostProcessor, Initia
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		Assert.state(StringUtils.hasText(uriIndexBeanName), "Name of UriIndex bean not configured.");
+		//Assert.state(StringUtils.hasText(uriIndexBeanName), "Name of UriIndex bean not configured.");
 	}
 
 	@Override
@@ -153,6 +154,7 @@ public class WebScriptUriRegistry implements UriIndex, BeanPostProcessor, Initia
 	/* Utility operations */
 
 	private void doRegisterWebScript(final WebScript webScript) {
+		System.out.println("\n\n  !!!! REGISTERING  \n\n" + uriIndex.getClass().getName());
 		Assert.state(uriIndex != null);
 		for (final String uri : webScript.getDescription().getURIs()) {
 			if (logger.isDebugEnabled()) {
@@ -161,9 +163,11 @@ public class WebScriptUriRegistry implements UriIndex, BeanPostProcessor, Initia
 			final WebScriptProxy webScriptProxy;
 			final UriMethod key = UriMethod.forUriAndMethod(uri, webScript.getDescription().getMethod());
 			if (webScriptProxiesByUriMethod.containsKey(key) == false) {
+				System.out.println("\n\n  !!!! webScriptProxiesByUriMethod.containsKey(key) == false \n\n");
 				webScriptProxy = new WebScriptProxy(webScript);
 				webScriptProxiesByUriMethod.put(key, webScriptProxy);
 			} else {
+				System.out.println("\n\n  !!!! webScriptProxiesByUriMethod.get(key)  \n\n");
 				webScriptProxy = webScriptProxiesByUriMethod.get(key);
 				webScriptProxy.setWebScript(webScript);
 			}

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <description>Configures annotation based webscripts loader</description>
+    
+    <bean id="annotation.runtime.WebScriptUriRegistry" class="com.github.dynamicextensionsalfresco.webscripts.WebScriptUriRegistry">
+        <property name="uriIndex" ref="webscripts.index.prototype">
+            <description>This has to point to the UriIndex in the Alfresco repository application context.</description>
+        </property>
+        <property name="uriIndexBeanName" value="webscripts.index.prototype" />
+    </bean>
+    
+    <bean id="stringValueConverter" class="com.github.dynamicextensionsalfresco.webscripts.arguments.StringValueConverter">
+        <property name="namespacePrefixResolver" ref="NamespaceService" />
+    </bean>
+    
+    <bean id="handlerMethodArgumentsResolver" class="com.github.dynamicextensionsalfresco.webscripts.arguments.HandlerMethodArgumentsResolver" 
+        init-method="initializeArgumentResolvers">
+        <property name="stringValueConverter" ref="stringValueConverter" />
+    </bean>
+    
+    <bean id="annotationBasedWebScriptBuilder" class="com.github.dynamicextensionsalfresco.webscripts.AnnotationWebScriptBuilder" >
+        <constructor-arg ref="handlerMethodArgumentsResolver"></constructor-arg>
+    </bean>
+    
+    <bean id="annotationBasedWebScriptRegistrar" class="com.github.dynamicextensionsalfresco.webscripts.AnnotationWebScriptRegistrar"
+        init-method="registerWebScripts" destroy-method="unregisterWebScripts">
+        <property name="annotationBasedWebScriptBuilder" ref="annotationBasedWebScriptBuilder" />
+        <property name="webScriptUriRegistry" ref="annotation.runtime.WebScriptUriRegistry" />
+    </bean>
+
+</beans>

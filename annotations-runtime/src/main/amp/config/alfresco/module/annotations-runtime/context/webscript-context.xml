@@ -21,4 +21,7 @@
 		  class="com.github.dynamicextensionsalfresco.demoamp.HelloWorldWebScript"
 		  parent="webscript">
 	</bean>
+	
+	<bean id="JrWebScript" class="com.jr.JrWebScript">
+	</bean>
 </beans>
