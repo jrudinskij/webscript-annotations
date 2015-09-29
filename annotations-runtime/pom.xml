@@ -10,14 +10,12 @@
     <description>Manages the lifecycle of the annotations-runtime Repository AMP (Alfresco Module Package)</description>
 
     <parent>
-        <groupId>org.alfresco.maven</groupId>
-        <artifactId>alfresco-sdk-parent</artifactId>
-        <version>2.1.0</version>
+        <groupId>com.github.dynamicextensionsalfresco</groupId>
+        <artifactId>parent</artifactId>
+        <version>1.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 	
-	<scm>
-		<connection>https://github.com/jrudinskij/webscript-annotations</connection>
-	</scm>
     <!-- 
         SDK properties have sensible defaults in the SDK parent,
         but you can override the properties below to use another version.
@@ -38,25 +36,6 @@
         <env>local</env>
         -->
     </properties>
-
-    <!-- Here we realize the connection with the Alfresco selected platform 
-        (e.g.version and edition) -->
-    <dependencyManagement>
-        <dependencies>
-            <!-- Setup what versions of the different Alfresco artifacts that will be used (depends on alfresco.version),
-                 so we don't have to specify version in any of the dependency definitions in our POM.
-                 For more info see:
-                    http://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html#Importing_Dependencies
-            -->
-            <dependency>
-                <groupId>${alfresco.groupId}</groupId>
-                <artifactId>alfresco-platform-distribution</artifactId>
-                <version>${alfresco.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <dependencies>
         <!-- Following dependencies are needed for compiling Java code in src/main/java;
@@ -91,75 +70,4 @@
         	<classifier>classes</classifier>
         </dependency>
     </dependencies>
-
-    <profiles>
-        <!--
-            Brings in the extra Enterprise specific repository classes,
-            if the 'enterprise' profile has been activated, needs to be activated manually.
-            -->
-        <profile>
-            <id>enterprise</id>
-            <dependencies>
-                <dependency>
-                    <groupId>${alfresco.groupId}</groupId>
-                    <artifactId>alfresco-enterprise-repository</artifactId>
-                    <version>${alfresco.version}</version>
-                    <scope>provided</scope>
-                </dependency>
-            </dependencies>
-        </profile>
-        
-        <profile>
-            <id>unpack-deps</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-dependency-plugin</artifactId>
-
-                        <executions>
-                            <execution>
-                                <id>unpack-amps</id>
-                                <phase>prepare-package</phase>
-                                <goals>
-                                    <goal>unpack-dependencies</goal>
-                                </goals>
-                                <configuration>
-                                    <includeTypes>amp</includeTypes>
-                                    <outputDirectory>${alfresco.client.war.folder}</outputDirectory>
-                                </configuration>
-                            </execution>
-                        </executions>
-                        <dependencies>
-                            <dependency>
-                                <groupId>org.alfresco.maven.plugin</groupId>
-                                <artifactId>maven-amp-plugin</artifactId>
-                                <version>3.0.2</version>
-                            </dependency>
-
-                        </dependencies>
-                    </plugin>
-
-                </plugins>
-            </build>
-        </profile>
-
-        <!--
-            If the 'amp-to-war' profile is enabled then make sure to bring in the alfresco-rad module,
-            which has the H2 scripts and other RAD features.
-
-            TODO: TO INVESTIGATE: This dependency is already defined in the parent SDK pom in the 'amp-to-war' profile
-                  but this does not work, it is not include...
-            -->
-        <profile>
-            <id>amp-to-war</id>
-            <dependencies>
-                <dependency>
-                    <groupId>org.alfresco.maven</groupId>
-                    <artifactId>alfresco-rad</artifactId>
-                    <version>${maven.alfresco.version}</version>
-                </dependency>
-            </dependencies>
-        </profile>
-    </profiles>
 </project>
