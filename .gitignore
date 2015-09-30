@@ -8,7 +8,6 @@ webscripts/.settings/
 annotations/.settings/
 annotations-runtime/.settings/
 annotations/tomcat/
-annotations-runtime/tomcat/
 webscripts/tomcat/
 annotations-runtime/alf_data_dev/
 .settings/
