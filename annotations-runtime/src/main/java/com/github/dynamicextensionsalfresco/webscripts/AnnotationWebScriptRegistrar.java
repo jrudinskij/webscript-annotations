@@ -17,6 +17,8 @@ public class AnnotationWebScriptRegistrar implements ApplicationContextAware {
 	private AnnotationWebScriptBuilder annotationBasedWebScriptBuilder;
 
 	private WebScriptUriRegistry webScriptUriRegistry;
+	
+	private boolean annotatedWebScriptsRegistered = false;
 
 	/* State */
 
@@ -25,12 +27,16 @@ public class AnnotationWebScriptRegistrar implements ApplicationContextAware {
 	/* Main operations */
 
 	public void registerWebScripts() {
+	    if(annotatedWebScriptsRegistered){
+	        return;
+	    }
 		for (final String beanName : applicationContext.getBeanDefinitionNames()) {
 			for (final WebScript webScript : annotationBasedWebScriptBuilder.createWebScripts(beanName)) {
 				webScriptUriRegistry.registerWebScript(webScript);
 				webScripts.add(webScript);
 			}
 		}
+		annotatedWebScriptsRegistered = true;
 	}
 
 	public void unregisterWebScripts() {

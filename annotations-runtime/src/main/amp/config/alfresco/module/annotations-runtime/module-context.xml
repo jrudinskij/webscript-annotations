@@ -23,5 +23,4 @@
     <import resource="classpath:alfresco/module/${project.artifactId}/context/bootstrap-context.xml" />
 	<import resource="classpath:alfresco/module/${project.artifactId}/context/webscript-context.xml" />
 	<import resource="classpath:alfresco/module/${project.artifactId}/context/annotation-webscript-loader-context.xml" />
-
 </beans>

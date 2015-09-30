@@ -22,6 +22,12 @@
 		  parent="webscript">
 	</bean>
 	
+	<bean id="webscript.annotatedWebScripts.get"
+          class="com.github.dynamicextensionsalfresco.webscripts.DisplayAnnotatedWebScripts"
+          parent="webscript">
+          <property name="webScriptUriRegistry" ref="annotation.runtime.WebScriptUriRegistry" />
+    </bean>
+    
 	<bean id="JrWebScript" class="com.jr.JrWebScript">
 	</bean>
 </beans>
