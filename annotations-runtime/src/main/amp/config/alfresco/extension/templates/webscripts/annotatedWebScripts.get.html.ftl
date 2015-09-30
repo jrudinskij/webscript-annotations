@@ -5,6 +5,9 @@
       <div>
           <h2>Annotated Web Scripts</h2>
           <br/>
+          <#if webScripts?size == 0>
+            No registered annotated web scripts 
+          </#if>
           <#if webScripts?size &gt; 0>
                  <#list webScripts as webscript>
                     

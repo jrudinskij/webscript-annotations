@@ -27,7 +27,4 @@
           parent="webscript">
           <property name="webScriptUriRegistry" ref="annotation.runtime.WebScriptUriRegistry" />
     </bean>
-    
-	<bean id="JrWebScript" class="com.jr.JrWebScript">
-	</bean>
 </beans>
